@@ -9,11 +9,13 @@ public class Spaceship : MonoBehaviour
     public static float shotCooldown = .05f;
     public float lastShot = 0;
     public float speed = 10f;
+    public float leftBound = -23f;
+    public float rightBound = 23f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,6 +33,10 @@ public class Spaceship : MonoBehaviour
             position.x -= speed * Time.deltaTime;
             transform.position = position;
         }
+        // Keep the ship inside the play area
+        Vector3 clamped = transform.position;
+        clamped.x = Mathf.Clamp(clamped.x, leftBound, rightBound);
+        transform.position = clamped;
         if (Keyboard.current.spaceKey.wasPressedThisFrame && Time.time - lastShot > shotCooldown)
         {
             Vector3 position = transform.position;
