@@ -5,20 +5,15 @@ public class Spaceship : MonoBehaviour
 {
     [Header("Inscribed")]
     public GameObject dartPrefab;
+    public Transform flame;          // drag the Flame object here
 
     public static float shotCooldown = .05f;
     public float lastShot = 0;
     public float speed = 10f;
-    public float leftBound = -23f;
-    public float rightBound = 23f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    public float leftBound = -16f;
+    public float rightBound = 16f;
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Keyboard.current.rightArrowKey.isPressed)
@@ -33,10 +28,23 @@ public class Spaceship : MonoBehaviour
             position.x -= speed * Time.deltaTime;
             transform.position = position;
         }
+
         // Keep the ship inside the play area
         Vector3 clamped = transform.position;
         clamped.x = Mathf.Clamp(clamped.x, leftBound, rightBound);
         transform.position = clamped;
+
+        // Lean the engine flame opposite to the direction of travel
+        float move = 0f;
+        if (Keyboard.current.rightArrowKey.isPressed) move += 1f;
+        if (Keyboard.current.leftArrowKey.isPressed) move -= 1f;
+
+        if (flame != null)
+        {
+            Quaternion target = Quaternion.Euler(0f, 0f, -move * 6f) * Quaternion.Euler(90f, 0f, 0f);
+            flame.localRotation = Quaternion.Lerp(flame.localRotation, target, 10f * Time.deltaTime);
+        }
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame && Time.time - lastShot > shotCooldown)
         {
             Vector3 position = transform.position;
@@ -45,7 +53,4 @@ public class Spaceship : MonoBehaviour
             lastShot = Time.time;
         }
     }
-
 }
-
-
