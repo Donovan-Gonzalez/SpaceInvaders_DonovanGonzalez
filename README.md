@@ -1,9 +1,13 @@
 # Space Invaders 3D - CSCI 381 Assignment 1
 
 **Student:** Donovan Gonzalez - 24364879
+
 **Course:** CSCI 381, Video Game Design and Development
+
 **Engine:** Unity 6 (6000.6.0f1), URP
+
 **Starting point:** Started it on my own, then all files were deleted because of mess up in OneDrive. Then used Professor's Space-Invaders-3D project to start over.
+
 
 AI assistance (Claude) was used while building this, as allowed by the course. No copyrighted assets are used. All art is built from Unity primitives, Unity's built-in particle system, and TextMeshPro.
 
