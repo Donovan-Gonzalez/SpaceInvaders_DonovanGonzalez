@@ -11,8 +11,16 @@ public class Spaceship : MonoBehaviour
     public float lastShot = 0;
     public float speed = 10f;
 
-    public float leftBound = -16f;
-    public float rightBound = 16f;
+    float leftBound = -16f;
+    float rightBound = 16f;
+
+    void Start()
+    {
+        // Bounds come from what the camera can actually see (minus a margin for the ship's width)
+        float halfWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        rightBound = halfWidth - 1f;
+        leftBound = -rightBound;
+    }
 
     void Update()
     {
