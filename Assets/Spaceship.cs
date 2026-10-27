@@ -24,6 +24,7 @@ public class Spaceship : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (Keyboard.current.rightArrowKey.isPressed)
         {
             Vector3 position = transform.position;

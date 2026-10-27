@@ -13,6 +13,7 @@ public class AlienFleet : MonoBehaviour
     public List<GameObject> aliens = new List<GameObject> { };
 
     public Transform spaceship;          // drag the Spaceship in from the scene
+    public GameObject startPanel;        // drag StartPanel in from the Canvas
     public GameObject gameOverPanel;     // drag GameOverPanel in from the Canvas
     public GameObject youWinPanel;       // drag YouWinPanel in from the Canvas
 
@@ -23,15 +24,13 @@ public class AlienFleet : MonoBehaviour
 
     float leftBound = -16;
     float rightBound = 16;
-    float lowerBound = 4.8f;
     float downTime = .1f;
     bool movingDown = false;
     bool gameOver = false;
+    bool started = false;
 
     void Start()
     {
-        Time.timeScale = 1f;
-
         // Bounds come from what the camera can actually see (minus a margin)
         float halfWidth = Camera.main.orthographicSize * Camera.main.aspect;
         rightBound = halfWidth - 1f;
@@ -52,11 +51,30 @@ public class AlienFleet : MonoBehaviour
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (youWinPanel != null) youWinPanel.SetActive(false);
+
+        // Start screen: freeze the game until the player presses Enter
+        if (startPanel != null)
+        {
+            startPanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            started = true;
+        }
     }
 
     void Update()
     {
         alienCounter.score = aliens.Count;
+
+        if (!started && Keyboard.current.enterKey.wasPressedThisFrame)
+        {
+            started = true;
+            startPanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
 
     void FixedUpdate()
